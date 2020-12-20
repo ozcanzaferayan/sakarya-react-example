@@ -1,24 +1,22 @@
-import logo from './logo.svg';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import AddButton from './components/AddButton';
+import MyInput from './components/MyInput';
+import PersonList from './components/PersonList';
+
+export const NameContext = React.createContext();
 
 function App() {
+  const [names, setNames] = useState([]);
+  const [name, setName] = useState("");
+  const inputRef = useRef(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <NameContext.Provider value={{ name, setName }}>
+      <PersonList setNames={setNames} names={names} />
+      <MyInput ref={inputRef} setName={setName} />
+      <AddButton inputRef={inputRef} name={name} setNames={setNames} setName={setName} />
+    </NameContext.Provider>
   );
 }
 
